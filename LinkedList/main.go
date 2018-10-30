@@ -26,4 +26,11 @@ func main() {
 
 	p.Remove("str")
 	p.PrintList()
+
+	q := linkedList.NewLinkedList()
+	for i := 1; i < 10; i++ {
+		q.Append(linkedList.NewNode(i))
+	}
+	q.Reverse()
+	q.PrintList()
 }

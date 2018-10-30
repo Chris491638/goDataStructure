@@ -167,3 +167,20 @@ func (list *LinkedList) Shift() (*Node, bool) {
 	list.SizeDec()
 	return current, true
 }
+
+// 单链表反转
+func (list *LinkedList) Reverse() {
+	if list.IsEmpty() || list.Length() == 1 {
+		return
+	}
+	p := list.head.next
+	q := p.next
+	for q != nil {
+		p.next = q.next
+
+		q.next = list.head.next
+		list.head.next = q
+
+		q = p.next
+	}
+}
