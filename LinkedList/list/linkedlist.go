@@ -12,35 +12,43 @@ type Node struct {
 	next  *Node
 }
 
+// 头结点
 type LinkedList struct {
 	head *Node
 }
 
+// 新建节点
 func NewNode(value ElementType) *Node {
 	return &Node{value, nil}
 }
 
+// 新建链表
 func NewLinkedList() *LinkedList {
 	head := &Node{0, nil}
 	return &LinkedList{head}
 }
 
+// 判断链表是否为空
 func (list *LinkedList) IsEmpty() bool {
 	return list.head.value == nil
 }
 
+// 链表长度
 func (list *LinkedList) Length() int64 {
 	return reflect.ValueOf(list.head.value).Int()
 }
 
+// 链表长度加1
 func (list *LinkedList) SizeInc() {
 	list.head.value = reflect.ValueOf(list.head.value).Int() + 1
 }
 
+// 链表长度减1
 func (list *LinkedList) SizeDec() {
 	list.head.value = reflect.ValueOf(list.head.value).Int() - 1
 }
 
+// 链表尾添加节点
 func (list *LinkedList) Append(node *Node) {
 	current := list.head
 	for current.next != nil {
@@ -50,6 +58,7 @@ func (list *LinkedList) Append(node *Node) {
 	list.SizeInc()
 }
 
+// 链表头添加节点
 func (list *LinkedList) Prepend(node *Node) {
 	current := list.head
 	node.next = current.next
@@ -57,6 +66,7 @@ func (list *LinkedList) Prepend(node *Node) {
 	list.SizeInc()
 }
 
+// 查询节点元素是否存在
 func (list *LinkedList) Find(value ElementType) (*Node, bool) {
 	if list.IsEmpty() {
 		fmt.Println("list is empty!")
@@ -75,6 +85,7 @@ func (list *LinkedList) Find(value ElementType) (*Node, bool) {
 	return nil, false
 }
 
+// 删除节点元素（全部）
 func (list *LinkedList) Remove(value ElementType) {
 	if list.IsEmpty() {
 		fmt.Println("list is empty!")
@@ -91,6 +102,7 @@ func (list *LinkedList) Remove(value ElementType) {
 
 }
 
+// 打印链表
 func (list *LinkedList) PrintList() {
 	if list.IsEmpty() {
 		fmt.Println("list is empty!")
@@ -106,6 +118,52 @@ func (list *LinkedList) PrintList() {
 	fmt.Printf("index %d : %v\n", index, current.value)
 }
 
+// 打印节点信息
 func (node *Node) PrintNode() {
 	fmt.Printf("Node Value : %v\n", node.value)
+}
+
+// 寻找元素前节点
+func (list *LinkedList) FindPreNode(value ElementType) (*Node, bool) {
+	if list.IsEmpty() {
+		fmt.Println("list is empty!")
+		return nil, false
+	}
+	current := list.head
+	for current.next != nil {
+		if current.next.value == value {
+			return current, true
+		} else {
+			current = current.next
+		}
+	}
+	return nil, false
+}
+
+// 删除链表尾部第一个节点
+func (list *LinkedList) Pop() (*Node, bool) {
+	if list.IsEmpty() {
+		fmt.Println("list is empty!")
+		return nil, false
+	}
+	current := list.head
+	for current.next.next != nil {
+		current = current.next
+	}
+	node := current.next
+	current.next = nil
+	list.SizeDec()
+	return node, true
+}
+
+// 删除链表头第一个节点
+func (list *LinkedList) Shift() (*Node, bool) {
+	if list.IsEmpty() {
+		fmt.Println("list is empty!")
+		return nil, false
+	}
+	current := list.head.next
+	list.head.next = current.next
+	list.SizeDec()
+	return current, true
 }
